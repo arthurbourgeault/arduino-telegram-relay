@@ -1,17 +1,17 @@
-import express from "express";
-import fetch from "node-fetch";
-import cors from "cors";
+const express = require("express");
+const fetch = require("node-fetch");
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Route principale pour tester depuis le navigateur
+// ✅ Route principale
 app.get("/", (req, res) => {
   res.send("Serveur Arduino → Telegram OK");
 });
 
-// ✅ Route pour recevoir les messages de l'Arduino
+// ✅ Route pour recevoir les messages
 app.post("/send", async (req, res) => {
   const message = req.body.message;
   console.log("📩 Message reçu :", message);
@@ -31,8 +31,6 @@ app.post("/send", async (req, res) => {
   }
 });
 
-// ✅ Démarrage du serveur
 app.listen(3000, () => {
   console.log("Serveur en ligne sur le port 3000");
 });
-
