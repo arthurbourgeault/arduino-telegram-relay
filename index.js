@@ -1,45 +1,38 @@
 import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";
-import fetch from "node-fetch";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔑 Ton token et ton chat_id Telegram
-const TOKEN = "8643358390:AAHeGb6J85dAxbsGkKenxdmVk0Bnb_vbjOo";
-const CHAT_ID = "8812012712";
-
-// 🟢 Route principale pour vérifier que le serveur fonctionne
+// ✅ Route principale pour tester depuis le navigateur
 app.get("/", (req, res) => {
   res.send("Serveur Arduino → Telegram OK");
 });
 
-// 🟣 Route pour recevoir les messages de l’Arduino
+// ✅ Route pour recevoir les messages de l'Arduino
 app.post("/send", async (req, res) => {
-  const message = req.body.message || "Message vide";
+  const message = req.body.message;
+  console.log("📩 Message reçu :", message);
 
-  const url = `https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`;
+  const botToken = "TON_TOKEN_TELEGRAM_ICI";
+  const chatId = "TON_CHAT_ID_ICI";
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
 
- try {
-  console.log("📩 Requête reçue :", message);
-
-  const response = await fetch(url);
-  const data = await response.json();
-
-  console.log("✅ Réponse Telegram :", data);
-
-  res.json({ status: "Message envoyé à Telegram", data });
-} catch (e) {
-  console.error("❌ Erreur d'envoi :", e);
-  res.json({ status: "Erreur", error: e.toString() });
-}
-
-
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log("✅ Réponse Telegram :", data);
+    res.json({ status: "Message envoyé à Telegram", data });
+  } catch (e) {
+    console.error("❌ Erreur d'envoi :", e);
+    res.json({ status: "Erreur", error: e.toString() });
+  }
 });
 
-// 🚀 Démarrage du serveur
+// ✅ Démarrage du serveur
 app.listen(3000, () => {
   console.log("Serveur en ligne sur le port 3000");
 });
+
