@@ -19,12 +19,16 @@ app.post("/send", async (req, res) => {
 
   const url = `https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`;
 
-  try {
-    await fetch(url);
-    res.json({ status: "Message envoyé à Telegram" });
-  } catch (e) {
-    res.json({ status: "Erreur", error: e.toString() });
-  }
+ try {
+  const response = await fetch(url);
+  const data = await response.json();
+  console.log("Réponse Telegram :", data);
+  res.json({ status: "Message envoyé à Telegram", data });
+} catch (e) {
+  console.error("Erreur d'envoi :", e);
+  res.json({ status: "Erreur", error: e.toString() });
+}
+
 });
 
 // 🚀 Démarrage du serveur
