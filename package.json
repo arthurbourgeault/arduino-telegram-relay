@@ -1,0 +1,14 @@
+{
+  "name": "arduino-telegram-relay",
+  "version": "1.0.0",
+  "description": "Serveur Express pour relier Arduino à Telegram",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2"
+  }
+}
